@@ -1,0 +1,10 @@
+*-
+.DS_Store
+Thumbs.db
+ror.xml
+sitemap.xml
+map-gen
+*.swp
+*.swo
+*-project
+*-workspace
