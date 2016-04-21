@@ -1,15 +1,21 @@
 <?php
 /**
-*
-* @file		        lynx-check.php
-* @copyright		Copyright 2016 Dilltree Inc.
-* @version			1.0
-* @license 			See README.txt
-* @author			Jeremy Dill
-*
+/**
+@file		        lynx-check.php
+@copyright		Copyright 2016 Dilltree Inc.
+@version			1.0
+@license 			See README.txt
+@author			Jeremy Dill
+@desc  			Given a FinishLynx file with format of 'place','bib','lane','lname','fname','team','time' as input, this script will compare places and times against RTRT.me by making a call for each tag.  It will output a report of the differences as a .csv.
+@usage 
+
+lynx-check.php [event name] [finish point name] [path to lynx file] [path to output file] [admin app id for RTRT API] [admin token id for RTRT API]
+
+ADMIN API and TOKEN is available in the RTRT.me console in your Account.
+
 **/
 
-if (count($_SERVER["argv"])!==6)  die("invalid options: \n usage: lynx-check.php [event name] [finish point name] [path to lynx file] [path to output file] [admin app id for RTRT API] [admin token id for RTRT API] ");
+if (count($_SERVER["argv"])!==7)  die("invalid options: \n usage: lynx-check.php [event name] [finish point name] [path to lynx file] [path to output file] [admin app id for RTRT API] [admin token id for RTRT API] ");
 
 if(!empty($_SERVER["argv"][1]))	$event_name=$_SERVER["argv"][1];
 if(!empty($_SERVER["argv"][2]))	$point=$_SERVER["argv"][2];
@@ -18,7 +24,7 @@ if(!empty($_SERVER["argv"][4]))	$output=$_SERVER["argv"][4];
 if(!empty($_SERVER["argv"][5]))	$appid=$_SERVER["argv"][5];
 if(!empty($_SERVER["argv"][6]))	$token=$_SERVER["argv"][6];
 
-$host = 'api.rtrt.me';
+$host = 'api-dev2.rtrt.me';
 
 // RTRT.me SERVER
 $secure=true;
@@ -52,7 +58,7 @@ try{
 		if($k==0) continue;
 		//if($i++>10) break;
 		$path='/events/'.$event_name.'/profiles/'.$k.'/splits/'.$point;
-		$qs='insplit='.$insplit.'&notslag=1&nohide=1&max=0';
+		$qs='insplit='.$insplit.'&notslag=1&nohide=1&gunplace=1';
 
 
 		ce('checking '.$k);
@@ -68,8 +74,8 @@ try{
 			$out[$k]['lynx_time']=$boad[$k]['time'];
 			if($split['waveTime']) $out[$k]['rtrt_sec']=tosec($split['waveTime']);
 			if($boad[$k]['time']) $out[$k]['lynx_sec']=tosec($boad[$k]['time']);
-			if($split['results']) $out[$k]['rtrt_place']=$split['results']['overall']['p'];
-			if($boad[$k]['place']) $out[$k]['lynx_place']=$boad[$k]['place'];	
+			if($split['results']) $out[$k]['rtrt_place']=$split['results']['gunplace']['p'];
+			if($boad[$k]['place']) $out[$k]['lynx_place']=$boad[$k]['place'];
 			//calculate diff
 			if($out[$k]['lynx_sec'] && $out[$k]['rtrt_sec']){
 				$out[$k]['diff_place']=$out[$k]['rtrt_place']-$out[$k]['lynx_place'];
