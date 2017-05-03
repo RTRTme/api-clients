@@ -24,7 +24,7 @@ if(!empty($_SERVER["argv"][4]))	$output=$_SERVER["argv"][4];
 if(!empty($_SERVER["argv"][5]))	$appid=$_SERVER["argv"][5];
 if(!empty($_SERVER["argv"][6]))	$token=$_SERVER["argv"][6];
 
-$host = 'api-dev2.rtrt.me';
+$host = 'api.rtrt.me';
 
 // RTRT.me SERVER
 $secure=true;
