@@ -17,7 +17,7 @@ if(!empty($_SERVER["argv"][1]))	$reset=$_SERVER["argv"][1];
 
 // RTRT.me SERVER
 $host = 'tcp.rtrt.me';
-$port = 39399;
+$port = 39999; //check with us for the correct port for your event
 
 // RTRT.me AUTH STRING
 $auth = 'auth~MyDemoApp~4c5d9d5ef469f69057f7766a~89ad3f6700e2e68e6431315bdab00f54';
